@@ -1,0 +1,41 @@
+﻿services:
+  db:
+    image: postgres:16
+    container_name: brain-db
+    environment:
+      - POSTGRES_USER=brain
+      - POSTGRES_PASSWORD=brain
+      - POSTGRES_DB=brain
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U brain -d brain"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  api:
+    build:
+      context: ./backend
+    container_name: brain-api
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - DATABASE_URL=postgresql+psycopg://brain:brain@db:5432/brain
+      - APP_ENV=dev
+      - CORS_ORIGINS=["http://localhost:5173"]
+    ports:
+      - "8000:8000"
+    develop:
+      watch:
+        - action: sync
+          path: ./backend/app
+          target: /app/app
+        - action: rebuild
+          path: ./backend/Dockerfile
+
+volumes:
+  pgdata:
