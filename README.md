@@ -110,8 +110,6 @@ docker compose exec api bash -lc "alembic -c alembic.ini upgrade head"
 # verificar saúde
 curl http://127.0.0.1:8000/health
 # -> {"status":"ok","db":"up","env":"..."}
-
-
 Documentação interativa:
 
 Swagger: http://127.0.0.1:8000/docs
@@ -150,6 +148,8 @@ GET /dashboard/pie/landuse
 
 Exemplos rápidos (PowerShell):
 
+
+
 # criar produtor
 $body = @{ cpf_cnpj = '52998224725'; name = 'João da Silva' } | ConvertTo-Json -Compress
 Invoke-RestMethod -Method Post -Uri "http://127.0.0.1:8000/producers" -ContentType "application/json; charset=utf-8" -Body ([Text.Encoding]::UTF8.GetBytes($body))
@@ -160,21 +160,21 @@ $body = @{
   area_total=1000; area_agricultavel=700; area_vegetacao=300
 } | ConvertTo-Json -Compress
 Invoke-RestMethod -Method Post -Uri "http://127.0.0.1:8000/farms" -ContentType "application/json; charset=utf-8" -Body ([Text.Encoding]::UTF8.GetBytes($body))
-
 3) Frontend (Vite)
+
+
 cd frontend
 npm install
 npm run dev   # abre em http://127.0.0.1:5173
-
 4) Testes
+
+
 # backend
 docker compose exec api bash -lc "pytest -q /app/tests"
 
 # frontend (modo watch; pressione q para sair)
 cd frontend
 npm run test
-
-
 Cobertura dos testes UI:
 
 src/__tests__/Dashboard.test.tsx (mock dos serviços + checa títulos/cards).
@@ -184,13 +184,11 @@ src/__tests__/Producers.test.tsx (render e chamada simulada).
 src/features/producers/slice.test.ts (reducers do Redux).
 
 🔍 Observabilidade
-
 /health: checagem rápida de DB e ambiente.
 
 /metrics: métricas Prometheus do FastAPI (requests, latências, etc.).
 
 🧩 Decisões & Notas
-
 Validação: app/utils/validators.py contém CPF/CNPJ e check de áreas.
 
 Modelagem: Season, Crop e FarmCrop permitem registrar culturas por safra.
@@ -204,5 +202,3 @@ Gráficos (Recharts): para testes no JSDOM, setupTests.ts inclui polyfills de Re
 Dica: para salvar o OpenAPI JSON na raiz:
 
 curl.exe -s http://127.0.0.1:8000/openapi.json -o .\openapi.json
-
-
