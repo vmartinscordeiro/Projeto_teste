@@ -1,4 +1,4 @@
-﻿# Brain Agriculture — Teste Técnico (Fullstack)
+﻿# Brain Agriculture — Teste Técnico
 
 Este repositório entrega **backend (FastAPI + Postgres + Alembic + Docker)** e **frontend (React + TypeScript + Vite + Redux Toolkit + Tests)**, atendendo aos requisitos do desafio.
 
