@@ -43,7 +43,10 @@ brain-ag-test/
 │ │ │ ├─ producer.py
 │ │ │ ├─ farm.py
 │ │ │ └─ farm_crop.py
-│ │ ├─ db/ (base.py, session.py, deps.py)
+│ │ ├─ db/
+│ │ │ ├─ base.py
+│ │ │ ├─ session.py
+│ │ │ └─ deps.py
 │ │ ├─ models/
 │ │ │ ├─ producer.py
 │ │ │ ├─ farm.py
@@ -84,6 +87,7 @@ brain-ag-test/
 ├─ openapi.json
 └─ README.md
 
+
 ## 🚀 Como rodar (local)
 
 ### 1) Pré-requisitos
@@ -105,7 +109,9 @@ docker compose exec api bash -lc "alembic -c alembic.ini upgrade head"
 
 # verificar saúde
 curl http://127.0.0.1:8000/health
-# → {"status":"ok","db":"up","env":"..."}
+# -> {"status":"ok","db":"up","env":"..."}
+
+
 Documentação interativa:
 
 Swagger: http://127.0.0.1:8000/docs
@@ -136,11 +142,13 @@ GET /farm-crops — lista (+ filtros farm_id, season, crop)
 
 GET /dashboard/summary — { total_farms, total_hectares }
 
-GET /dashboard/pie/state — [{"label":"MT","value":2}, ...]
+GET /dashboard/pie/state
 
 GET /dashboard/pie/crop
 
 GET /dashboard/pie/landuse
+
+Exemplos rápidos (PowerShell):
 
 # criar produtor
 $body = @{ cpf_cnpj = '52998224725'; name = 'João da Silva' } | ConvertTo-Json -Compress
@@ -153,17 +161,19 @@ $body = @{
 } | ConvertTo-Json -Compress
 Invoke-RestMethod -Method Post -Uri "http://127.0.0.1:8000/farms" -ContentType "application/json; charset=utf-8" -Body ([Text.Encoding]::UTF8.GetBytes($body))
 
-# instalar deps
+3) Frontend (Vite)
+cd frontend
 npm install
+npm run dev   # abre em http://127.0.0.1:5173
 
-# rodar em dev
-npm run dev
-# abre em http://127.0.0.1:5173
-
+4) Testes
+# backend
 docker compose exec api bash -lc "pytest -q /app/tests"
 
+# frontend (modo watch; pressione q para sair)
 cd frontend
-npm run test   # modo watch (pressione "q" para sair)
+npm run test
+
 
 Cobertura dos testes UI:
 
@@ -185,11 +195,14 @@ Validação: app/utils/validators.py contém CPF/CNPJ e check de áreas.
 
 Modelagem: Season, Crop e FarmCrop permitem registrar culturas por safra.
 
-Alembic: Migrações 0001 (produtores, fazendas) e 0002 (safras, culturas, vínculos).
+Alembic: migrações 0001 (produtores, fazendas) e 0002 (safras, culturas, vínculos).
 
 Redux: slice de producers com thunks (fetchProducers, createProducer).
 
 Gráficos (Recharts): para testes no JSDOM, setupTests.ts inclui polyfills de ResizeObserver e getBBox.
 
-# salva o OpenAPI em JSON na raiz
+Dica: para salvar o OpenAPI JSON na raiz:
+
 curl.exe -s http://127.0.0.1:8000/openapi.json -o .\openapi.json
+
+
