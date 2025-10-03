@@ -1,14 +1,7 @@
-﻿import { api } from "../lib/api";
-import type { Producer, ProducerCreate } from "../types";
+﻿import { api } from "./api";
+import type { Producer } from "../types";
 
-export async function listProducers() {
+export async function listProducers(): Promise<Producer[]> {
   const { data } = await api.get<Producer[]>("/producers");
   return data;
-}
-export async function createProducer(payload: ProducerCreate) {
-  const { data } = await api.post<Producer>("/producers", payload);
-  return data;
-}
-export async function deleteProducer(id: number) {
-  await api.delete(`/producers/${id}`);
 }

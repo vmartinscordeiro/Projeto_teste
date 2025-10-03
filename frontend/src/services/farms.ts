@@ -1,11 +1,14 @@
-﻿import { api } from "../lib/api";
-import type { Farm, FarmCreate } from "../types";
+﻿import { api } from "./api";
+import type { Farm } from "../types";
 
-export async function listFarms(params?: { producer_id?: number }) {
+type ListParams = { producer_id?: number };
+
+export async function listFarms(params?: ListParams): Promise<Farm[]> {
   const { data } = await api.get<Farm[]>("/farms", { params });
   return data;
 }
-export async function createFarm(payload: FarmCreate) {
+
+export async function createFarm(payload: Omit<Farm,"id">): Promise<Farm> {
   const { data } = await api.post<Farm>("/farms", payload);
   return data;
 }

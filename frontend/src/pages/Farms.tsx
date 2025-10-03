@@ -1,4 +1,4 @@
-﻿import { useEffect, useMemo, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import { listProducers } from "../services/producers";
 import { createFarm, listFarms } from "../services/farms";
 import type { Producer, Farm } from "../types";
@@ -52,10 +52,10 @@ export default function Farms() {
   }
 
   return (
-    <div style={{display:"grid", gap:16}}>
-      <h2>Fazendas</h2>
+    <div className="container" style={{display:"grid", gap:16}}>
+      <h1>Fazendas</h1>
 
-      <div style={{display:"flex", gap:8, alignItems:"center"}}>
+      <div className="card" style={{display:"flex", gap:8, alignItems:"center"}}>
         <label>Filtrar por produtor:</label>
         <select value={producerId} onChange={e=>setProducerId(e.target.value === "" ? "" : Number(e.target.value))}>
           <option value="">(Todos)</option>
@@ -63,7 +63,7 @@ export default function Farms() {
         </select>
       </div>
 
-      <form onSubmit={onSubmit} style={{display:"grid", gridTemplateColumns:"repeat(4, 1fr)", gap:8}}>
+      <form onSubmit={onSubmit} className="card" style={{display:"grid", gridTemplateColumns:"repeat(4, 1fr)", gap:8}}>
         <select required value={producerId} onChange={e=>setProducerId(Number(e.target.value))}>
           <option value="">Selecione o produtor…</option>
           {producers.map(p => <option key={p.id} value={p.id}>{p.id} - {p.name}</option>)}
@@ -78,23 +78,25 @@ export default function Farms() {
         {msg && <span style={{gridColumn:"1 / -1", color:"#f55"}}>{String(msg)}</span>}
       </form>
 
-      <table>
-        <thead><tr><th>ID</th><th>Produtor</th><th>Nome</th><th>Cidade</th><th>UF</th><th>Área</th></tr></thead>
-        <tbody>
-          {farms.map(f=>(
-            <tr key={f.id}>
-              <td>{f.id}</td>
-              <td>{f.producer_id}</td>
-              <td>{f.name}</td>
-              <td>{f.city ?? "-"}</td>
-              <td>{f.state ?? "-"}</td>
-              <td>
-                T {toNum(f.area_total)} / Agri {toNum(f.area_agricultavel)} / Veg {toNum(f.area_vegetacao)}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <div className="card">
+        <table width="100%" cellPadding={8}>
+          <thead><tr><th>ID</th><th>Produtor</th><th>Nome</th><th>Cidade</th><th>UF</th><th>Área</th></tr></thead>
+          <tbody>
+            {farms.map(f=>(
+              <tr key={f.id}>
+                <td>{f.id}</td>
+                <td>{f.producer_id}</td>
+                <td>{f.name}</td>
+                <td>{f.city ?? "-"}</td>
+                <td>{f.state ?? "-"}</td>
+                <td>
+                  T {toNum(f.area_total)} / Agri {toNum(f.area_agricultavel)} / Veg {toNum(f.area_vegetacao)}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
