@@ -2,8 +2,6 @@
 
 Este repositório entrega **backend (FastAPI + Postgres + Alembic + Docker)** e **frontend (React + TypeScript + Vite + Redux Toolkit + Tests)**, atendendo aos requisitos do desafio.
 
-# Brain Agriculture — Teste Técnico (Fullstack)
-
 ![Python 3.11](https://img.shields.io/badge/Python-3.11-blue)
 ![FastAPI](https://img.shields.io/badge/FastAPI-API-green)
 ![React 18](https://img.shields.io/badge/React-18-61dafb)
