@@ -28,7 +28,7 @@ Este repositório entrega **backend (FastAPI + Postgres + Alembic + Docker)** e 
   - **Testes UI** com **Vitest + Testing Library** (inclui ajustes de JSDOM para gráficos).
 
 ## 🧱 Arquitetura & Estrutura
-
+```
 brain-ag-test/
 ├─ backend/
 │ ├─ app/
@@ -86,7 +86,7 @@ brain-ag-test/
 ├─ docker-compose.yml
 ├─ openapi.json
 └─ README.md
-
+```
 
 ## 🚀 Como rodar (local)
 
@@ -160,15 +160,13 @@ $body = @{
   area_total=1000; area_agricultavel=700; area_vegetacao=300
 } | ConvertTo-Json -Compress
 Invoke-RestMethod -Method Post -Uri "http://127.0.0.1:8000/farms" -ContentType "application/json; charset=utf-8" -Body ([Text.Encoding]::UTF8.GetBytes($body))
+
 3) Frontend (Vite)
-
-
 cd frontend
 npm install
 npm run dev   # abre em http://127.0.0.1:5173
+
 4) Testes
-
-
 # backend
 docker compose exec api bash -lc "pytest -q /app/tests"
 
